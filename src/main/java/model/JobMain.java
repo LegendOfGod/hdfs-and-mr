@@ -23,7 +23,7 @@ public class JobMain extends Configured implements Tool {
         job.setJarByClass(JobMain.class);
         //第一步：读取输入文件解析成key value对
         job.setInputFormatClass(TextInputFormat.class);
-        TextInputFormat.addInputPath(job,new Path("hdfs://node01:8020/wordcount"));
+        TextInputFormat.addInputPath(job,new Path("hdfs://lqbaliyun:9000/data/wordcount"));
         //设置mapper类
         job.setMapperClass(WordCountMapper.class);
         //设置map阶段完成之后的输出类型
@@ -36,13 +36,14 @@ public class JobMain extends Configured implements Tool {
         job.setOutputValueClass(LongWritable.class);
         //设置输出类和输出路径
         job.setOutputFormatClass(TextOutputFormat.class);
-        TextOutputFormat.setOutputPath(job,new Path("hdfs://node01:8020/wordcount_out"));
+        TextOutputFormat.setOutputPath(job,new Path("hdfs://lqbaliyun:9000/data/wordcount_out"));
         boolean completion = job.waitForCompletion(true);
         return completion?0:1;
     }
 
     public static void main(String[] args) throws Exception {
         Configuration configuration = new Configuration();
+        configuration.set("dfs.client.use.datanode.hostname", "true");
         JobMain jobMain = new JobMain();
         int run = ToolRunner.run(configuration, jobMain, args);
         System.exit(run);
