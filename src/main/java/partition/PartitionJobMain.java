@@ -28,7 +28,7 @@ public class PartitionJobMain extends Configured implements Tool {
         job.setJarByClass(PartitionJobMain.class);
         //读取文件key-value
         job.setInputFormatClass(TextInputFormat.class);
-        TextInputFormat.addInputPath(job,new Path("hdfs://172.24.250.143:8020/p"));
+        TextInputFormat.addInputPath(job,new Path("hdfs://lqbaliyun:9000/data/partition"));
         //设置mapper 输出key和value
         job.setMapperClass(PartitionMapper.class);
         job.setMapOutputKeyClass(Text.class);
@@ -39,7 +39,7 @@ public class PartitionJobMain extends Configured implements Tool {
         job.setOutputValueClass(NullWritable.class);
         //设置输出文件位置
         job.setOutputFormatClass(TextOutputFormat.class);
-        TextOutputFormat.setOutputPath(job,new Path("hdfs://172.24.250.143:8020/p_final"));
+        TextOutputFormat.setOutputPath(job,new Path("hdfs://lqbaliyun:9000/data/partition_out"));
         //分区设置
         job.setPartitionerClass(MyPartition.class);
         job.setNumReduceTasks(2);
@@ -49,6 +49,7 @@ public class PartitionJobMain extends Configured implements Tool {
 
     public static void main(String[] args) throws Exception{
         Configuration configuration = new Configuration();
+        configuration.set("dfs.client.use.datanode.hostname", "true");
         PartitionJobMain jobMain = new PartitionJobMain();
         ToolRunner.run(configuration,jobMain,args);
     }

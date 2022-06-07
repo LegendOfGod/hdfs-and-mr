@@ -24,7 +24,7 @@ public class SortJobMain extends Configured implements Tool {
         job.setJarByClass(SortJobMain.class);
         //读取文件key-value
         job.setInputFormatClass(TextInputFormat.class);
-        TextInputFormat.addInputPath(job,new Path("hdfs://node01:8020/sort"));
+        TextInputFormat.addInputPath(job,new Path("hdfs://lqbaliyun:9000/data/sort"));
         //设置mapper 输出key和value
         job.setMapperClass(SortMapper.class);
         job.setMapOutputKeyClass(PairWritable.class);
@@ -35,7 +35,7 @@ public class SortJobMain extends Configured implements Tool {
         job.setOutputValueClass(IntWritable.class);
         //设置输出文件位置
         job.setOutputFormatClass(TextOutputFormat.class);
-        TextOutputFormat.setOutputPath(job,new Path("hdfs://node01:8020/sort_final"));
+        TextOutputFormat.setOutputPath(job,new Path("hdfs://lqbaliyun:9000/data/sort_out"));
         boolean completion = job.waitForCompletion(true);
         return completion?0:1;
     }
@@ -43,6 +43,8 @@ public class SortJobMain extends Configured implements Tool {
     public static void main(String[] args) throws Exception{
         Configuration configuration = new Configuration();
         SortJobMain sortJobMain = new SortJobMain();
+        configuration.set("dfs.client.use.datanode.hostname", "true");
         ToolRunner.run(configuration,sortJobMain,args);
     }
+
 }

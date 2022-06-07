@@ -13,6 +13,8 @@ import java.io.IOException;
 public class PartitionReducer extends Reducer<Text, NullWritable,Text,NullWritable> {
     @Override
     protected void reduce(Text key, Iterable<NullWritable> values, Context context) throws IOException, InterruptedException {
-        context.write(key,NullWritable.get());
+        for (NullWritable nullWritable : values) {
+            context.write(key,NullWritable.get());
+        }
     }
 }
