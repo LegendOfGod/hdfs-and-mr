@@ -36,7 +36,6 @@ public class MapperJoinMapper extends Mapper<LongWritable, Text,Text,Text> {
             map.put(split[0],line);
         }
         bufferedReader.close();
-        //fileSystem.close();
     }
 
     @Override

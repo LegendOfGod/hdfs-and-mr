@@ -14,6 +14,7 @@ public class OrderReducer extends Reducer<OrderBean, Text,Text, NullWritable> {
     @Override
     protected void reduce(OrderBean key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
         int i = 0;
+        System.out.println("reduce=="+key.toString()+":"+values.toString());
         for (Text value : values) {
             context.write(value,NullWritable.get());
             i++;

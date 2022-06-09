@@ -17,6 +17,7 @@ public class SequenceFileMapper extends Mapper<NullWritable, BytesWritable, Text
     protected void map(NullWritable key, BytesWritable value, Context context) throws IOException, InterruptedException {
         FileSplit fileSplit = (FileSplit) context.getInputSplit();
         String fileName = fileSplit.getPath().getName();
+        System.out.println("fileName:"+fileName);
         context.write(new Text(fileName),value);
     }
 }

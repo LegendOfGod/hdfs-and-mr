@@ -22,6 +22,7 @@ public class SortMapper extends Mapper<LongWritable, Text, PairWritable, IntWrit
         pairWritable.set(split[0],Integer.parseInt(split[1]));
         intWritable.set(Integer.parseInt(split[1]));
         System.out.println("mapper:"+pairWritable.toString());
+        System.out.println(pairWritable.hashCode());
         context.write(pairWritable, intWritable);
     }
 }
